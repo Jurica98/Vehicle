@@ -1,14 +1,13 @@
-﻿using Project.Model.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project.Model
+namespace Project.Model.Common
 {
-    public class VehicleModel : IVehicleModel
+    public interface IVehicleModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -16,7 +15,7 @@ namespace Project.Model
 
         [ForeignKey("VehicleMake")]
         public int VehicleMakeId { get; set; }
-        public VehicleMake? VehicleMake { get; set; }
+
+        
     }
 }
-
