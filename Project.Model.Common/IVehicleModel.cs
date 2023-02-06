@@ -9,12 +9,12 @@ namespace Project.Model.Common
 {
     public interface IVehicleModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Abrv { get; set; }
+        int Id { get; set; }
+        string Name { get; set; }
+        string Abrv { get; set; }
 
         [ForeignKey("VehicleMake")]
-        public int VehicleMakeId { get; set; }
+        int VehicleMakeId { get; set; }
 
         
     }
