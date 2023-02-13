@@ -1,4 +1,5 @@
-﻿using Project.Model.Common;
+﻿using Project.Model;
+using Project.Model.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Project.Service.Common
 {
     public interface IVehicleMakeService
     {
-        Task<IList<IVehicleMake>> GetVehicleMakes();
+        Task<List<IVehicleMake>> GetVehicleMakes();
     }
 }

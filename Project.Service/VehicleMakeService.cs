@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Project.Model;
 using Project.Model.Common;
 using Project.Repository;
 using Project.Repository.Common;
@@ -22,12 +23,11 @@ namespace Project.Service
             _mapper = mapper;
         }
 
-        public async Task<IList<IVehicleMake>> GetVehicleMakes()
+        public async Task<List<IVehicleMake>> GetVehicleMakes()
         {
             
             var VehicleMakeEntitys = await _unitOfWork.VehicleMakeEntitys.GetAll();
-            var results = _mapper.Map<IList<IVehicleMake>>(VehicleMakeEntitys).ToList();
-            return results;
+            return new List<IVehicleMake>(_mapper.Map<List<VehicleMake>>(VehicleMakeEntitys).ToList());
         }
     }
 }

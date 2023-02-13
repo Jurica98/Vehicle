@@ -14,13 +14,14 @@ namespace Project.Service
     {
         public DIModule()
         {
-            CreateMap<VehicleMakeEntity, IVehicleMake>().ReverseMap();
             CreateMap<VehicleMakeEntity, VehicleMake>().ReverseMap();
-            CreateMap<VehicleMake, IVehicleMake>().ReverseMap();
+            CreateMap<VehicleMakeEntity, IVehicleMake>().ReverseMap();
+            CreateMap<IVehicleMake, VehicleMake>().ReverseMap();
 
-            CreateMap<VehicleModelEntity, IVehicleModel>().ReverseMap();
+
             CreateMap<VehicleModelEntity, VehicleModel>().ReverseMap();
-            CreateMap<VehicleModel, IVehicleModel>().ReverseMap();
+            CreateMap<VehicleModelEntity, IVehicleModel>().ReverseMap();
+            CreateMap<IVehicleModel, VehicleModel>().ReverseMap();
 
 
         }

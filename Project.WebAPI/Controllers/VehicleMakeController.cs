@@ -12,7 +12,7 @@ namespace Project.WebAPI.Controllers
     [ApiController]
     public class VehicleMakeController : ControllerBase
     {
-        
+        /*
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
@@ -29,8 +29,8 @@ namespace Project.WebAPI.Controllers
             var Makes = await _unitOfWork.VehicleMakeEntitys.GetAll();
             var resault = _mapper.Map<List<VehicleMake>>(Makes);
             return Ok(resault);
-        }
-        /*
+        }*/
+        
         private readonly IVehicleMakeService _service;
         
         public VehicleMakeController(IVehicleMakeService service)
@@ -39,10 +39,10 @@ namespace Project.WebAPI.Controllers
         }
         [HttpGet]
         [Route("VehicleMakes")]
-        public async Task<ActionResult<IList<IVehicleMake>>> GetAsync()
+        public async Task<ActionResult<List<IVehicleMake>>> GetVehicleMakeAsync()
         {
             return Ok(await _service.GetVehicleMakes());
-        }*/
+        }
         
     }
 
