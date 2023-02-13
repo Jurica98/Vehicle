@@ -13,9 +13,9 @@ namespace Project.Model.Common
         string Name { get; set; }
         string Abrv { get; set; }
 
-        [ForeignKey("VehicleMake")]
         int VehicleMakeId { get; set; }
-
         
+
+
     }
 }

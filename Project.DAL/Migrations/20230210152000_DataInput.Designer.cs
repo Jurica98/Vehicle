@@ -11,8 +11,8 @@ using Project.DAL;
 namespace Project.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230206121315_Inital_003")]
-    partial class Inital003
+    [Migration("20230210152000_DataInput")]
+    partial class DataInput
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace Project.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Project.Model.VehicleMake", b =>
+            modelBuilder.Entity("Project.DAL.Entities.VehicleMakeEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,9 +43,29 @@ namespace Project.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("VehicleMakes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Abrv = "VW",
+                            Name = "Volkswagen"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Abrv = "audi",
+                            Name = "Audi"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Abrv = "BMW",
+                            Name = "Bavarian Motor Works"
+                        });
                 });
 
-            modelBuilder.Entity("Project.Model.VehicleModel", b =>
+            modelBuilder.Entity("Project.DAL.Entities.VehicleModelEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,30 +81,53 @@ namespace Project.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("VehicleMakeId")
+                    b.Property<int>("VehicleMakeEntityId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VehicleMakeId");
+                    b.HasIndex("VehicleMakeEntityId");
 
                     b.ToTable("VehicleModels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Abrv = "VW",
+                            Name = "Golf 7",
+                            VehicleMakeEntityId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Abrv = "audi",
+                            Name = "A4",
+                            VehicleMakeEntityId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Abrv = "BMW",
+                            Name = "M4",
+                            VehicleMakeEntityId = 3
+                        });
                 });
 
-            modelBuilder.Entity("Project.Model.VehicleModel", b =>
+            modelBuilder.Entity("Project.DAL.Entities.VehicleModelEntity", b =>
                 {
-                    b.HasOne("Project.Model.VehicleMake", "VehicleMake")
-                        .WithMany("VehicleModels")
-                        .HasForeignKey("VehicleMakeId")
+                    b.HasOne("Project.DAL.Entities.VehicleMakeEntity", "VehicleMakeEntitys")
+                        .WithMany("VehicleModelEntitys")
+                        .HasForeignKey("VehicleMakeEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("VehicleMake");
+                    b.Navigation("VehicleMakeEntitys");
                 });
 
-            modelBuilder.Entity("Project.Model.VehicleMake", b =>
+            modelBuilder.Entity("Project.DAL.Entities.VehicleMakeEntity", b =>
                 {
-                    b.Navigation("VehicleModels");
+                    b.Navigation("VehicleModelEntitys");
                 });
 #pragma warning restore 612, 618
         }
