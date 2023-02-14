@@ -17,11 +17,16 @@ namespace Project.Service
             CreateMap<VehicleMakeEntity, VehicleMake>().ReverseMap();
             CreateMap<VehicleMakeEntity, IVehicleMake>().ReverseMap();
             CreateMap<IVehicleMake, VehicleMake>().ReverseMap();
-
+            CreateMap<CreateVehicleMake, VehicleMakeEntity>().ReverseMap();
+            CreateMap<UpdateVehicleMake, VehicleMakeEntity>().ReverseMap();
 
             CreateMap<VehicleModelEntity, VehicleModel>().ReverseMap();
             CreateMap<VehicleModelEntity, IVehicleModel>().ReverseMap();
             CreateMap<IVehicleModel, VehicleModel>().ReverseMap();
+            CreateMap<CreateVehicleModel, VehicleModelEntity>().ReverseMap();
+            CreateMap<UpdateVehicleModel, VehicleModelEntity>().ReverseMap();
+
+
 
 
         }

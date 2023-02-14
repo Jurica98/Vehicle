@@ -12,9 +12,6 @@ namespace Project.Model.Common
         int Id { get; set; }
         string Abrv { get; set; }
         string Name { get; set; }
-        
-
-
 
     }
 }

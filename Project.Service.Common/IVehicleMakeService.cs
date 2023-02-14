@@ -11,5 +11,9 @@ namespace Project.Service.Common
     public interface IVehicleMakeService
     {
         Task<List<IVehicleMake>> GetVehicleMakes();
+        Task<IVehicleMake> GetVehicleMake(int id);
+        Task<bool> CreateVehicleMake(CreateVehicleMake vehicleMake);
+        Task<bool> UpdateVehicleMake(int id, UpdateVehicleMake vehicleMake);
+        Task<bool> DeleteVehicleMake(int id);
     }
 }

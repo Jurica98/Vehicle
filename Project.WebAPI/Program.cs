@@ -20,6 +20,7 @@ builder.Services.AddAutoMapper(typeof(DIModule).Assembly);
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IVehicleMakeService, VehicleMakeService>();
+builder.Services.AddScoped<IVehicleModelService, VehicleModelService>();
 
 
 var app = builder.Build();
