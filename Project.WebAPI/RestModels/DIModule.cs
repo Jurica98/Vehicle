@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
 using Project.DAL.Entities;
-using Project.Model;
 using Project.Model.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Project.Model;
 
-namespace Project.Service
+namespace Project.WebAPI.RestModels
 {
     public class DIModule : Profile
     {
@@ -17,17 +12,20 @@ namespace Project.Service
             CreateMap<VehicleMakeEntity, VehicleMake>().ReverseMap();
             CreateMap<VehicleMakeEntity, IVehicleMake>().ReverseMap();
             CreateMap<IVehicleMake, VehicleMake>().ReverseMap();
-            CreateMap<CreateVehicleMake, VehicleMakeEntity>().ReverseMap();
             CreateMap<UpdateVehicleMake, VehicleMakeEntity>().ReverseMap();
+            CreateMap<VehicleMakeRest, VehicleMake>().ReverseMap();
+            CreateMap<VehicleMakeRest, IVehicleMake>().ReverseMap();
+            CreateMap<CreateVehicleMakeRest, VehicleMake>().ReverseMap();
+            CreateMap<UpdateVehicleMakeRest, UpdateVehicleMake>().ReverseMap();
 
             CreateMap<VehicleModelEntity, VehicleModel>().ReverseMap();
             CreateMap<VehicleModelEntity, IVehicleModel>().ReverseMap();
             CreateMap<IVehicleModel, VehicleModel>().ReverseMap();
-            CreateMap<CreateVehicleModel, VehicleModelEntity>().ReverseMap();
             CreateMap<UpdateVehicleModel, VehicleModelEntity>().ReverseMap();
-
-
-
+            CreateMap<VehicleModelRest, VehicleModel>().ReverseMap();
+            CreateMap<VehicleModelRest, IVehicleModel>().ReverseMap();
+            CreateMap<CreateVehicleModelRest, VehicleModel>().ReverseMap();
+            CreateMap<UpdateVehicleModelRest, UpdateVehicleModel>().ReverseMap();
 
         }
     }

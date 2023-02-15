@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Project.DAL.Entities;
+using Project.Common;
 
 
 namespace Project.Service
@@ -29,6 +30,12 @@ namespace Project.Service
             return new List<IVehicleModel>(_mapper.Map<List<VehicleModel>>(VehicleModelEntitys).ToList());
         }
 
+        public async Task<List<IVehicleModel>> GetPagedVehicleModels(RequestParams requestParams)
+        {
+            var VehicleModelEntitys = await _unitOfWork.VehicleModelEntitys.GetPaged(requestParams);
+            return new List<IVehicleModel>(_mapper.Map<List<VehicleModel>>(VehicleModelEntitys).ToList());
+        }
+
         public async Task<IVehicleModel> GetVehicleModel(int id)
         {
             var VehicleModelEntity = await _unitOfWork.VehicleModelEntitys.Get(q => q.Id == id);
@@ -36,7 +43,7 @@ namespace Project.Service
         }
 
 
-        public async Task<bool> CreateVehicleModel(CreateVehicleModel vehicleModel)
+        public async Task<bool> CreateVehicleModel(VehicleModel vehicleModel)
         {
             var _VehicleModel = _mapper.Map<VehicleModelEntity>(vehicleModel);
             await _unitOfWork.VehicleModelEntitys.Insert(_VehicleModel);

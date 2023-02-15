@@ -4,6 +4,7 @@ using Project.Repository;
 using Project.Repository.Common;
 using Project.Service;
 using Project.Service.Common;
+using Project.WebAPI.RestModels;
 
 var builder = WebApplication.CreateBuilder(args);
 

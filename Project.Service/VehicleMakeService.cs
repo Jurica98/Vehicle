@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Project.Common;
 using Project.DAL.Entities;
 using Project.Model;
 using Project.Model.Common;
@@ -29,7 +30,7 @@ namespace Project.Service
         public async Task<IVehicleMake> GetVehicleMake(int id)
         {
             var VehicleMakeEntity = await _unitOfWork.VehicleMakeEntitys.Get(q => q.Id == id);
-            return (IVehicleMake)_mapper.Map<VehicleMake>(VehicleMakeEntity); 
+            return (IVehicleMake)_mapper.Map<VehicleMake>(VehicleMakeEntity);
         }
 
         public async Task<List<IVehicleMake>> GetVehicleMakes()
@@ -38,7 +39,13 @@ namespace Project.Service
             return new List<IVehicleMake>(_mapper.Map<List<VehicleMake>>(VehicleMakeEntitys).ToList());
         }
 
-        public async Task<bool> CreateVehicleMake(CreateVehicleMake vehicleMake)
+        public async Task<List<IVehicleMake>> GetPagedVehicleMakes(RequestParams requestParams)
+        {
+            var VehicleMakeEntitys = await _unitOfWork.VehicleMakeEntitys.GetPaged(requestParams);
+            return new List<IVehicleMake>(_mapper.Map<List<VehicleMake>>(VehicleMakeEntitys).ToList());
+        }
+
+        public async Task<bool> CreateVehicleMake(VehicleMake vehicleMake)
         {
             var _VehicleMake = _mapper.Map<VehicleMakeEntity>(vehicleMake);
             await _unitOfWork.VehicleMakeEntitys.Insert(_VehicleMake);

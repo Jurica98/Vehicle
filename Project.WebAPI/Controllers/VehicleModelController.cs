@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Project.Common;
 using Project.Model;
 using Project.Model.Common;
 using Project.Service.Common;
-
+using Project.WebAPI.RestModels;
 
 namespace Project.WebAPI.Controllers
 {
@@ -11,52 +13,123 @@ namespace Project.WebAPI.Controllers
     public class VehicleModelController : ControllerBase
     {
         private readonly IVehicleModelService _service;
+        private readonly IMapper _mapper;
 
-        public VehicleModelController(IVehicleModelService service)
+        public VehicleModelController(IVehicleModelService service, IMapper mapper)
         {
             _service = service;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [Route("VehicleModels")]
         public async Task<ActionResult<List<IVehicleModel>>> GetVehicleModelsAsync()
         {
-            return Ok(await _service.GetVehicleModels());
+            try
+            {
+                var vehicleModel = await _service.GetVehicleModels();
+                var vehicleModelRest = _mapper.Map<List<VehicleModelRest>>(vehicleModel);
+                if (vehicleModelRest == null)
+                {
+                    return NotFound();
+                }
+                return Ok(vehicleModelRest);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("PagedVehicleModels")]
+        public async Task<ActionResult<List<IVehicleModel>>> GetPagedVehicleModelsAsync([FromQuery] RequestParams requestParams)
+        {
+            try
+            {
+                var vehicleModel = await _service.GetPagedVehicleModels(requestParams);
+                var vehicleModelRest = _mapper.Map<List<VehicleModelRest>>(vehicleModel);
+                if (vehicleModelRest == null)
+                {
+                    return NotFound();
+                }
+                return Ok(vehicleModelRest);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpGet("{id:int}", Name = "GetVehicleModel")]
         public async Task<ActionResult<IVehicleMake>> GetVehicleModelAsync(int id)
         {
-            return Ok(await _service.GetVehicleModel(id));
+            try
+            {
+                var vehicleModel = await _service.GetVehicleModel(id);
+                var vehicleModelRest = _mapper.Map<VehicleModelRest>(vehicleModel);
+                if (vehicleModelRest == null)
+                {
+                    return NotFound();
+                }
+                return Ok(vehicleModelRest);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateVehicleModelAsync([FromBody] CreateVehicleModel vehicleModel)
+        public async Task<IActionResult> CreateVehicleModelAsync([FromBody] CreateVehicleModelRest vehicleModel)
         {
 
-            return Ok(await _service.CreateVehicleModel(vehicleModel));
+            try
+            {
+                var _VehicleModel = _mapper.Map<VehicleModel>(vehicleModel);
+                var newVehicleModel = await _service.CreateVehicleModel(_VehicleModel);
+                return Ok(newVehicleModel);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
 
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateVehicleModelAsync(int id, [FromBody] UpdateVehicleModel vehicleModel)
+        public async Task<IActionResult> UpdateVehicleModelAsync(int id, [FromBody] UpdateVehicleModelRest vehicleModel)
         {
-            if (!ModelState.IsValid || id < 1)
+            try
             {
-                return BadRequest("Invalid UPDATE attempt");
+                if (!ModelState.IsValid || id < 1)
+                {
+                    return BadRequest("Invalid UPDATE attempt");
+                }
+                var _VehicleModel= _mapper.Map<UpdateVehicleModel>(vehicleModel);
+                return Ok(await _service.UpdateVehicleModel(id, _VehicleModel));
             }
-            return Ok(await _service.UpdateVehicleModel(id, vehicleModel)); ;
-
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteVehicleModelAsync(int id)
         {
-            if (!ModelState.IsValid || id < 1)
+            try
             {
-                return BadRequest("Invalid DELETE attempt");
+                if (!ModelState.IsValid || id < 1)
+                {
+                    return BadRequest("Invalid DELETE attempt");
+                }
+                return Ok(await _service.DeleteVehicleModel(id));
             }
-            return Ok(await _service.DeleteVehicleModel(id)); ;
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
 
         }
     }
