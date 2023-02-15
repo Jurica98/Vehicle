@@ -32,22 +32,23 @@ namespace Project.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Abrv = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VehicleMakeId = table.Column<int>(type: "int", nullable: true)
+                    VehicleMakeId = table.Column<int>(type: "int", nullable: false),
+                    VehicleMakeEntitysId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_VehicleModels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VehicleModels_VehicleMakes_VehicleMakeId",
-                        column: x => x.VehicleMakeId,
+                        name: "FK_VehicleModels_VehicleMakes_VehicleMakeEntitysId",
+                        column: x => x.VehicleMakeEntitysId,
                         principalTable: "VehicleMakes",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_VehicleModels_VehicleMakeId",
+                name: "IX_VehicleModels_VehicleMakeEntitysId",
                 table: "VehicleModels",
-                column: "VehicleMakeId");
+                column: "VehicleMakeEntitysId");
         }
 
         /// <inheritdoc />
