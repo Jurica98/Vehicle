@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Project.Common;
 using Project.DAL;
 using Project.Repository.Common;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace Project.Repository
 {
@@ -41,13 +43,10 @@ namespace Project.Repository
             return await query.AsNoTracking().FirstOrDefaultAsync(exception);
         }
 
-        public  async Task<IList<T>> GetAll(Expression<Func<T, bool>> exception = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, List<string> includes = null)
+        public async Task<IList<T>> GetAll(List<string> includes = null)
+
         {
             IQueryable<T> query = _db;
-            if(exception!= null)
-            {
-                query= query.Where(exception);
-            }
 
             if (includes != null)
             {
@@ -57,12 +56,22 @@ namespace Project.Repository
                 }
             }
 
-            if(orderBy != null)
+            return await query.AsNoTracking().ToListAsync();
+        }
+        public  async Task<IPagedList<T>> GetPaged(RequestParams requestParams,List<string> includes = null)
+            
+        {
+            IQueryable<T> query = _db;
+
+            if (includes != null)
             {
-                query = orderBy(query);
+                foreach (var includeProperty in includes)
+                {
+                    query = query.Include(includeProperty);
+                }
             }
 
-            return await query.AsNoTracking().ToListAsync();
+            return await query.AsNoTracking().ToPagedListAsync(requestParams.PageNumber, requestParams.PageSize);
         }
 
         public async Task Insert(T entity)
