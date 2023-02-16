@@ -19,11 +19,13 @@ namespace Project.Service
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IVehicleMakeRepository _VehicleMakeRepository;
 
-        public VehicleMakeService(IUnitOfWork unitOfWork, IMapper mapper)
+        public VehicleMakeService(IUnitOfWork unitOfWork, IMapper mapper, IVehicleMakeRepository VehicleMakeRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _VehicleMakeRepository= VehicleMakeRepository;
         }
 
         
@@ -43,6 +45,17 @@ namespace Project.Service
         {
             var VehicleMakeEntitys = await _unitOfWork.VehicleMakeEntitys.GetPaged(requestParams);
             return new List<IVehicleMake>(_mapper.Map<List<VehicleMake>>(VehicleMakeEntitys).ToList());
+        }
+        public async Task<List<IVehicleMake>> GetVehicleMakesOrderByName()
+        {
+            var VehicleMakeEntitys = await _VehicleMakeRepository.GetOrderByName();
+            return new List<IVehicleMake>(VehicleMakeEntitys.ToList());
+        }
+
+        public async Task<List<IVehicleMake>> GetVehicleMakesFilerByName(string name)
+        {
+            var VehicleMakeEntitys = await _VehicleMakeRepository.GetFilterByName(name);
+            return new List<IVehicleMake>(VehicleMakeEntitys.ToList());
         }
 
         public async Task<bool> CreateVehicleMake(VehicleMake vehicleMake)

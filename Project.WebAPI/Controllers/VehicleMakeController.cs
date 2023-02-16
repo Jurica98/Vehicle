@@ -13,7 +13,7 @@ using System.Diagnostics.Metrics;
 
 namespace Project.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class VehicleMakeController : ControllerBase
     {
@@ -58,7 +58,40 @@ namespace Project.WebAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("VehicleMakesOrderBy")]
+        public async Task<ActionResult<List<IVehicleMake>>> GetVehicleMakesOrderByNameAsync()
+        {
+            try
+            {
+                var vehicleMakes = await _service.GetVehicleMakesOrderByName();
+                var vehicleMakesRest = _mapper.Map<List<VehicleMakeRest>>(vehicleMakes);
+                return Ok(vehicleMakesRest);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("VehicleMakesFilterBy")]
+        public async Task<ActionResult<List<IVehicleMake>>> GetVehicleMakesFilterByNameAsync(string name)
+        {
+            try
+            {
+                var vehicleMakes = await _service.GetVehicleMakesFilerByName(name);
+                var vehicleMakesRest = _mapper.Map<List<VehicleMakeRest>>(vehicleMakes);
+                return Ok(vehicleMakesRest);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet("{id:int}", Name = "GetVehicleMake")]
+
         public async Task<ActionResult<IVehicleMake>> GetVehicleMakeAsync(int id)
         {
             try

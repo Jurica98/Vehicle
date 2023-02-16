@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Project.DAL.Entities;
 using Project.Common;
+using Project.Repository;
 
 
 namespace Project.Service
@@ -18,11 +19,13 @@ namespace Project.Service
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IVehicleModelRepository _VehicleModelRepository;
 
-        public VehicleModelService(IUnitOfWork unitOfWork, IMapper mapper)
+        public VehicleModelService(IUnitOfWork unitOfWork, IMapper mapper, IVehicleModelRepository vehicleModelRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _VehicleModelRepository = vehicleModelRepository;
         }
         public async Task<List<IVehicleModel>> GetVehicleModels()
         {
@@ -40,6 +43,18 @@ namespace Project.Service
         {
             var VehicleModelEntity = await _unitOfWork.VehicleModelEntitys.Get(q => q.Id == id);
             return (IVehicleModel)_mapper.Map<VehicleModel>(VehicleModelEntity);
+        }
+
+        public async Task<List<IVehicleModel>> GetVehicleModelsOrderByName()
+        {
+            var VehicleModelEntitys = await _VehicleModelRepository.GetOrderByName();
+            return new List<IVehicleModel>(VehicleModelEntitys.ToList());
+        }
+
+        public async Task<List<IVehicleModel>> GetVehicleModelsFilerByName(string name)
+        {
+            var VehicleModelEntitys = await _VehicleModelRepository.GetFilterByName(name);
+            return new List<IVehicleModel>(VehicleModelEntitys.ToList());
         }
 
 

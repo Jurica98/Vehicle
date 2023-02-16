@@ -14,6 +14,8 @@ namespace Project.Service.Common
         Task<List<IVehicleMake>> GetVehicleMakes();
         Task<List<IVehicleMake>> GetPagedVehicleMakes(RequestParams requestParams);
         Task<IVehicleMake> GetVehicleMake(int id);
+        Task<List<IVehicleMake>> GetVehicleMakesOrderByName();
+        Task<List<IVehicleMake>> GetVehicleMakesFilerByName(string name);
         Task<bool> CreateVehicleMake(VehicleMake vehicleMake);
         Task<bool> UpdateVehicleMake(int id, UpdateVehicleMake vehicleMake);
         Task<bool> DeleteVehicleMake(int id);

@@ -13,6 +13,7 @@ namespace Project.Model.Common
         string Name { get; set; }
         string Abrv { get; set; }
         int VehicleMakeEntityId { get; set; }
+
   
     }
 }

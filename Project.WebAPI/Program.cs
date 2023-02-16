@@ -22,6 +22,8 @@ builder.Services.AddAutoMapper(typeof(DIModule).Assembly);
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IVehicleMakeService, VehicleMakeService>();
 builder.Services.AddScoped<IVehicleModelService, VehicleModelService>();
+builder.Services.AddScoped<IVehicleMakeRepository, VehicleMakeRepository>();
+builder.Services.AddScoped<IVehicleModelRepository, VehicleModelRepository>();
 
 
 var app = builder.Build();

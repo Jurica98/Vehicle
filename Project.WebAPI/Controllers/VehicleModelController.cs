@@ -61,6 +61,38 @@ namespace Project.WebAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("VehicleModelsOrderBy")]
+        public async Task<ActionResult<List<IVehicleModel>>> GetVehicleModelsOrderByNameAsync()
+        {
+            try
+            {
+                var vehicleModel = await _service.GetVehicleModelsOrderByName();
+                var vehicleModelRest = _mapper.Map<List<VehicleModelRest>>(vehicleModel);
+                return Ok(vehicleModelRest);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("VehicleModelsFilterBy")]
+        public async Task<ActionResult<List<IVehicleModel>>> GetVehicleModelsFilterByNameAsync(string name)
+        {
+            try
+            {
+                var vehicleModels = await _service.GetVehicleModelsFilerByName(name);
+                var vehicleModelsRest = _mapper.Map<List<VehicleModelRest>>(vehicleModels);
+                return Ok(vehicleModelsRest);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet("{id:int}", Name = "GetVehicleModel")]
         public async Task<ActionResult<IVehicleMake>> GetVehicleModelAsync(int id)
         {
@@ -79,6 +111,8 @@ namespace Project.WebAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+       
 
         [HttpPost]
         public async Task<IActionResult> CreateVehicleModelAsync([FromBody] CreateVehicleModelRest vehicleModel)
